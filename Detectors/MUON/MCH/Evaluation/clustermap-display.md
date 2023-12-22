@@ -21,7 +21,7 @@ o2-mch-clustermap-display --help
 
 ```shell
 
-o2-mch-clustermap-display --green --normperarea --rootfileleft DATA_QC.root --rootfileright 100mil.root --help
+o2-mch-clustermap-display --green --normperarea --rootfileleft DATA_QC.root --rootfileright MC_QC.root --help
 
 ```
 
@@ -64,7 +64,7 @@ o2-sim-serial --timestamp 1663632000000 -n 10 -g fwmugen -m HALL MAG DIPO COMP P
 
 ## MC file
 SIMULATIONS:
-- Go to lxplus : `ssh -X youlogin@lxplus.cern.ch`
+- Go to lxplus : `ssh -X login@lxplus.cern.ch`
 - Source the environment : `source /cvmfs/alice-nightlies.cern.ch/bin/alienv enter VO_ALICE@O2sim::v20230413-1`
 - Create a new repository for your simulation
 - Check for the generator file : `O2DPG_ROOT/MC/config/PWGDQ/external/generator/GeneratorParamPromptJpsiToMuonEvtGen_pp13TeV.C` **choose the right one**

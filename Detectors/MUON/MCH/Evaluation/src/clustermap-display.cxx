@@ -35,6 +35,8 @@
 #include <sys/stat.h>
 #include "DetectorsBase/GeometryManager.h"
 #include "MCHContour/Polygon.h"
+#include <fmt/format.h>
+#include "MCHGlobalMapping/DsIndex.h"
 
 using namespace o2::mch::mapping;
 
@@ -333,6 +335,8 @@ std::vector<int> getDualSampasBorNB(int deId, bool isBending)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Convert DsIndex (Global) to DsId (Local)
 uint16_t convertDsIndextoDsId(o2::mch::DsIndex dsIndex)
 {
@@ -431,14 +435,17 @@ double calculateNmax(int nChamber, bool bending, const TH1F* ClustersperDualSamp
 {
 
   // Load clusters from TH1F Histogram
-  auto nClusters_dsindex = processClustersperDualSampa(ClustersperDualSampa);
-  std::vector<int> nClusters = nClusters_dsindex.first;
+  auto [nClusters, _] = processClustersperDualSampa(ClustersperDualSampa);
 
   // Getting all DeIds for all Chambers
   auto deIds = getAllDeIds(nChamber);
 
   int dsIndex;
   double Nmax = 0.0;
+  // auto tStart = std::chrono::high_resolution_clock::now();
+  // const auto& tracks = mTrackFinder.findTracks(clustersIn.subspan(clusterROF.getFirstIdx(), clusterROF.getNEntries()));
+  // auto tEnd = std::chrono::high_resolution_clock::now();
+  // mElapsedTime += tEnd - tStart;
 
   if (IsNormalizedPerDSArea == false) {
 
@@ -456,6 +463,7 @@ double calculateNmax(int nChamber, bool bending, const TH1F* ClustersperDualSamp
         Nmax = std::max(Nmax, static_cast<double>(nClusters[dsIndex]));
       }
     }
+
   } else {
 
     // Calculate maximum ratio of clusters/DSArea
@@ -621,7 +629,7 @@ void svgChamber(o2::mch::contour::SVGWriter& w, int nChamber, bool bending, cons
   // Load clusters from TH1F Histogram
   auto nClusters_dsindex = processClustersperDualSampa(ClustersperDualSampa);
   std::vector<int> nClusters = nClusters_dsindex.first;
-  std::vector<uint16_t> dsindex = nClusters_dsindex.second;
+  // std::vector<uint16_t> dsindex = nClusters_dsindex.second;
 
   // Colors Vector in HEX RBG format
   std::vector<std::string> colors = colorGradiant();
@@ -643,7 +651,15 @@ void svgChamber(o2::mch::contour::SVGWriter& w, int nChamber, bool bending, cons
 
   std::vector<std::pair<double, int>> areas; // Vector with Areas of DS Contours paired with dsIndex
 
-  double Nmax = calculateNmax(nChamber, bending, ClustersperDualSampa, transformation, IsNormalizedPerDSArea); // Maximun Ratio
+          auto s0 = std::chrono::high_resolution_clock::now();
+
+        double Nmax = calculateNmax(nChamber, bending, ClustersperDualSampa, transformation, IsNormalizedPerDSArea); // Maximun Ratio
+
+
+        auto e0 = std::chrono::high_resolution_clock::now();
+        auto duration = (e0 - s0).count();
+      std::cout << "Duration of Chamber "<< nChamber << " = "<< duration << std::endl;
+
 
   // All DeId transformated  + SVGWRITER of all chambers
   for (auto deId : deIds) {
