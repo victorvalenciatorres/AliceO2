@@ -45,6 +45,7 @@ DECLARE_SOA_COLUMN(Q1Y0A, q1y0a, float);   //!  Q-vector y component, with event
 DECLARE_SOA_COLUMN(Q1X0B, q1x0b, float);   //!  Q-vector x component, with event eta gap B (harmonic 1 and power 0)
 DECLARE_SOA_COLUMN(Q1Y0B, q1y0b, float);   //!  Q-vector y component, with event eta gap B (harmonic 1 and power 0)
 DECLARE_SOA_COLUMN(Q1X0C, q1x0c, float);   //!  Q-vector x component, with event eta gap C (harmonic 1 and power 0)
+DECLARE_SOA_COLUMN(Q1Y0C, q1y0c, float);   //!  Q-vector y component, with event eta gap C (harmonic 1 and power 0)
 DECLARE_SOA_COLUMN(Q2X0A, q2x0a, float);   //!  Q-vector x component, with event eta gap A (harmonic 2 and power 0)
 DECLARE_SOA_COLUMN(Q2Y0A, q2y0a, float);   //!  Q-vector y component, with event eta gap A (harmonic 2 and power 0)
 DECLARE_SOA_COLUMN(Q2X0B, q2x0b, float);   //!  Q-vector x component, with event eta gap B (harmonic 2 and power 0)
